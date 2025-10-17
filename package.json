@@ -9,11 +9,12 @@
     "dev:server": "lerna run dev --scope \"@bigcapital/server\" --scope \"@bigcapital/utils\" --scope \"@bigcapital/pdf-templates\" --scope \"@bigcapital/email-components\"",
     "build:server": "lerna run build --scope \"@bigcapital/server\" --scope \"@bigcapital/utils\" --scope \"@bigcapital/pdf-templates\" --scope \"@bigcapital/email-components\"",
     "serve:server": "lerna run serve --scope \"@bigcapital/server\" --scope \"@bigcapital/utils\"",
-    "server2:start": "lerna run start:dev --scope \"@bigcapital/server2\"",
-    "test:watch": "lerna run test:watch",
-    "test:e2e": "lerna run test:e2e",
-    "start:debug": "lerna run start:debug",
-    "prepare": "husky install"
+    "test:e2e": "playwright test",
+    "prepare": "husky install",
+    "cli": "cd packages/server && pnpm run cli",
+    "migrate:latest": "cd packages/server && pnpm run migrate:latest",
+    "migrate:rollback": "cd packages/server && pnpm run migrate:rollback",
+    "migrate:make": "cd packages/server && pnpm run migrate:make"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.4.2",
@@ -35,5 +36,35 @@
   },
   "dependencies": {
     "tsup": "^8.3.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "@tiptap/core": "2.1.13",
+      "@tiptap/pm": "2.1.13",
+      "@tiptap/extension-blockquote": "2.1.13",
+      "@tiptap/extension-bold": "2.1.13",
+      "@tiptap/extension-bubble-menu": "2.1.13",
+      "@tiptap/extension-bullet-list": "2.1.13",
+      "@tiptap/extension-code": "2.1.13",
+      "@tiptap/extension-code-block": "2.1.13",
+      "@tiptap/extension-color": "2.1.13",
+      "@tiptap/extension-document": "2.1.13",
+      "@tiptap/extension-dropcursor": "2.1.13",
+      "@tiptap/extension-floating-menu": "2.1.13",
+      "@tiptap/extension-gapcursor": "2.1.13",
+      "@tiptap/extension-hard-break": "2.1.13",
+      "@tiptap/extension-heading": "2.1.13",
+      "@tiptap/extension-history": "2.1.13",
+      "@tiptap/extension-horizontal-rule": "2.1.13",
+      "@tiptap/extension-italic": "2.1.13",
+      "@tiptap/extension-list-item": "2.1.13",
+      "@tiptap/extension-ordered-list": "2.1.13",
+      "@tiptap/extension-paragraph": "2.1.13",
+      "@tiptap/extension-strike": "2.1.13",
+      "@tiptap/extension-text": "2.1.13",
+      "@tiptap/extension-text-style": "2.1.13",
+      "@tiptap/react": "2.1.13",
+      "@tiptap/starter-kit": "2.1.13"
+    }
   }
 }
