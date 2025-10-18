@@ -297,16 +297,73 @@ WARN Issues with peer dependencies found
 
 **Solution** : Ces avertissements peuvent être ignorés pour le moment. Le projet fonctionne malgré ces warnings.
 
-### Erreur 4 : Cannot find module bcrypt_lib.node (lors de tentatives précédentes)
+### Erreur 4 : Cannot find module bcrypt_lib.node
 
 **Erreur** :
 ```
-Cannot find module 'bcrypt_lib.node'
+Error: Cannot find module 'H:\Github\opensource\bigcapital\node_modules\.pnpm\bcrypt@5.1.1_encoding@0.1.13\node_modules\bcrypt\lib\binding\napi-v3\bcrypt_lib.node'
 ```
 
-**Cause** : bcrypt n'était pas compilé correctement, ou le CLI importait des modules non nécessaires.
+**Cause** : Le module natif bcrypt n'était pas compilé correctement pour la version de Node.js utilisée.
 
-**Solution** : Le CLI a été simplifié pour ne pas importer AppModule et utiliser directement dotenv pour la configuration.
+**Solution** : Réinstaller bcrypt :
+```bash
+cd packages/server
+pnpm remove bcrypt && pnpm add bcrypt
+```
+
+Cela installe automatiquement la version compatible (bcrypt@6.0.0) et compile le module natif.
+
+### Erreur 5 : Redis version trop ancienne
+
+**Erreur** :
+```
+Error: Redis version needs to be greater or equal than 5.0.0 Current: 3.0.504
+```
+
+**Cause** : BullMQ (utilisé pour les queues) nécessite Redis version >= 5.0.0, mais le serveur utilise une version 3.x.
+
+**Solution** : Mettre à jour Redis dans votre configuration Docker.
+
+Si vous utilisez `docker-compose.yml`, mettez à jour l'image Redis :
+
+```yaml
+services:
+  redis:
+    image: redis:7-alpine  # ou redis:6-alpine, redis:5-alpine
+    ports:
+      - "6379:6379"
+```
+
+Puis redémarrez les conteneurs :
+
+```bash
+docker-compose down
+docker-compose up -d
+```
+
+**Alternative** : Si vous installez Redis directement (sans Docker) :
+
+Windows (avec Chocolatey) :
+```bash
+choco upgrade redis-64
+```
+
+Linux :
+```bash
+sudo apt-get update
+sudo apt-get install redis-server
+```
+
+MacOS :
+```bash
+brew upgrade redis
+```
+
+Vérifier la version de Redis :
+```bash
+redis-cli --version
+```
 
 ## Architecture du CLI
 
